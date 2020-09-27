@@ -5,6 +5,15 @@ export const Flags = {
   title: new Rox.Flag(false)
 }
 
+export const configurationFetchedHandler = fetcherResults => {
+  console.log('The configuration status is: ' + fetcherResults.fetcherStatus)
+  if (fetcherResults.hasChanges && fetcherResults.fetcherStatus === 'APPLIED_FROM_NETWORK') {
+    window.location.reload(false)
+  } else if (fetcherResults.fetcherStatus === 'ERROR_FETCH_FAILED') {
+    console.log('Error occured! Details are: ' + fetcherResults.errorDetails)
+  }
+}
+
 async function initRollout () {
   const options = {
   }
