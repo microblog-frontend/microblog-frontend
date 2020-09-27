@@ -16,8 +16,22 @@ export const configurationFetchedHandler = fetcherResults => {
   }
 }
 
+export const impressionHandler = (reporting, experiment) => {
+  if (experiment.name === 'title') {
+    console.log('Title flag, ' + reporting.name + ' ,value is ' + reporting.value)
+    window.gtag('event', experiment.name, {
+      'event_category': reporting.name,
+      'event_label': reporting.value
+    })
+  } else {
+    console.log('Not in title experiment. Flag ' + reporting.name + '. default value ' + reporting.value + ' was used')
+  }
+}
+
 async function initRollout () {
   const options = {
+    configurationFetchedHandler: configurationFetchedHandler,
+    impressionHandler: impressionHandler
   }
   Rox.setCustomBooleanProperty('isLoggedIn', store.getters.isLoggedIn)
   Rox.setCustomBooleanProperty('hasBetaAccess', betaAccess())
